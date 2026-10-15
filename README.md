@@ -1,3 +1,3 @@
 # DevOps Proyecto
 # Curso_Devops
-[![CI Pipeline](https://github.com/TaniaBP/devops-proyecto/actions/workflows/ci.yml/badge.svg)](https://github.com/TaniaBP/devops-proyecto/actions/workflows/ci.yml)
+[![CI Pipeline](https://github.com/TaniaBP/TU_REPOSITORIO/actions/workflows/ci.yml/badge.svg)](https://github.com/TaniaBP/TU_REPOSITORIO/actions/workflows/ci.yml)
