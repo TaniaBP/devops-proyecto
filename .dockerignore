@@ -1,0 +1,27 @@
+# Control de versiones
+.git/
+.gitignore
+
+# Entornos virtuales Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Variables de entorno locales (NUNCA en la imagen)
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Pipeline files
+.github/
+azure-pipelines.yml
+
+# Documentación
+*.md
+docs/
