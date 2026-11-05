@@ -21,7 +21,7 @@ services:
     environment:
       - POSTGRES_USER=devops
       - POSTGRES_PASSWORD=devops123
-      - POSTGRES_DB=devopsdb
+      - POSTGRES_DB=devops
     ports:
       - "5432:5432"
     volumes:
