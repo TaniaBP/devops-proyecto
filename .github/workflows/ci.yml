@@ -45,3 +45,5 @@ jobs:
           docker tag devops-app:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/devops-app:${{ github.sha }}
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/devops-app:${{ github.sha }}
+
+      

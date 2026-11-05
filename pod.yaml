@@ -1,0 +1,19 @@
+az loginapiVersion: v1
+kind: Pod
+metadata:
+  name: devops-app-pod
+  labels:
+    app: devops-app
+spec:
+  containers:
+    - name: app
+      image: nginx:1.25-alpine
+      ports:
+        - containerPort: 80
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "50m"
+        limits:
+          memory: "64Mi"
+          cpu: "100m"
