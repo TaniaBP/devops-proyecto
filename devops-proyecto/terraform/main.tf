@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_storage_account" "main" {
-  name                     = "ststagingdevops830f"
+  name                     = "ststagingdevops2026x"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
@@ -31,6 +31,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     name       = "default"
     node_count = var.node_count
     vm_size    = "standard_d2ds_v4"
+  }
+
+  node_provisioning_profile {
+    mode = "Auto"
   }
 
   identity {
