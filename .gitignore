@@ -1,2 +1,7 @@
 .terraform/
 devops-proyecto/terraform/.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars.local
+.terraform.lock.hcl
+"@ | Out-File -Append -Encoding utf8 .gitignore
