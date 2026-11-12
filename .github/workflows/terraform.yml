@@ -28,6 +28,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
 
       - name: Terraform Init
         working-directory: terraform
@@ -45,17 +46,17 @@ jobs:
         working-directory: terraform
         run: terraform plan -no-color -out=tfplan
         env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
+          ARM_CLIENT_SECRET: ${{ steps.login.outputs.clientSecret }}
+          ARM_SUBSCRIPTION_ID: ${{ steps.login.outputs.subscriptionId }}
+          ARM_TENANT_ID: ${{ steps.login.outputs.tenantId }}
 
       - name: Terraform Apply (solo en main)
         if: github.ref == 'refs/heads/main'
         working-directory: terraform
         run: terraform apply -auto-approve tfplan
         env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
+          ARM_CLIENT_SECRET: ${{ steps.login.outputs.clientSecret }}
+          ARM_SUBSCRIPTION_ID: ${{ steps.login.outputs.subscriptionId }}
+          ARM_TENANT_ID: ${{ steps.login.outputs.tenantId }}
