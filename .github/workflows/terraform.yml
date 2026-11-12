@@ -1,16 +1,13 @@
 name: Terraform IaC
 
+
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'terraform/**'
+    branches: [main]
+    paths: ['terraform/**'] 
   pull_request:
-    branches:
-      - main
-    paths:
-      - 'terraform/**'
+    branches: [main]
+    paths: ['terraform/**']
 
 permissions:
   contents: read
