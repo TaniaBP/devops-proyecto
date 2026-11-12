@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "main" {
-  name     = "rg-staging-devops"
+  name     = "rg-devops-academia"
   location = "eastus"
   tags = {
     environment = "staging"
