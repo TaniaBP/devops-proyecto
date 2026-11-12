@@ -21,20 +21,20 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Conectar a AKS
-        run: |
-          az aks get-credentials \
-            --resource-group rg-devops-academia \
-            --name aks-staging-devops
+      # - name: Conectar a AKS
+      #   run: |
+      #     az aks get-credentials \
+      #       --resource-group rg-devops-academia \
+      #       --name aks-staging-devops
 
-      - name: Helm deploy en Staging
-        run: |
-          helm upgrade --install devops-app helm/devops-app \
-            --namespace staging \
-            --create-namespace \
-            --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/devops-app \
-            --set image.tag=${{ github.event.workflow_run.head_sha }} \
-            --wait
+      # - name: Helm deploy en Staging
+      #   run: |
+      #     helm upgrade --install devops-app helm/devops-app \
+      #       --namespace staging \
+      #       --create-namespace \
+      #       --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/devops-app \
+      #       --set image.tag=${{ github.event.workflow_run.head_sha }} \
+      #       --wait
             
       - name: Simular deploy en Staging
         run: |
