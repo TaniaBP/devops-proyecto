@@ -3,10 +3,12 @@ name: Terraform IaC
 on:
   push:
     branches: [main]
-     paths: ['devops-proyecto/terraform/**'] 
+
+     paths: ['terraform/**'] 
   pull_request:
     branches: [main]
-     paths: ['devops-proyecto/terraform/**']
+     paths: ['terraform/**']
+
 
 permissions:
   contents: read
@@ -25,25 +27,27 @@ jobs:
           terraform_version: "1.6.0"
 
       - name: Login en Azure
+        id: login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
       - name: Terraform Init
-        working-directory: terraform
+        working-directory: devops-proyecto/terraform
         run: terraform init
 
       - name: Terraform Format Check
-        working-directory: terraform
+        working-directory: devops-proyecto/terraform
         run: terraform fmt -check
 
       - name: Terraform Validate
-        working-directory: terraform
+        working-directory: devops-proyecto/terraformcd.
+        
         run: terraform validate
 
       - name: Terraform Plan
-        working-directory: terraform
+        working-directory: devops-proyecto/terraform
         run: terraform plan -no-color -out=tfplan
         env:
           ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
@@ -53,7 +57,7 @@ jobs:
 
       - name: Terraform Apply (solo en main)
         if: github.ref == 'refs/heads/main'
-        working-directory: terraform
+        working-directory: devops-proyecto/terraform
         run: terraform apply -auto-approve tfplan
         env:
           ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}

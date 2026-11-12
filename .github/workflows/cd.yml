@@ -5,11 +5,12 @@ on:
     workflows: ["CI Pipeline", "Terraform IaC"]
     branches: [main]
     types: [completed]
+  workflow_dispatch:
 
 jobs:
   deploy-staging:
     name: Deploy → Staging
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     environment: staging
 
@@ -27,22 +28,21 @@ jobs:
       #       --resource-group rg-devops-academia \
       #       --name aks-staging-devops
 
+
       # - name: Helm deploy en Staging
       #   run: |
       #     helm upgrade --install devops-app helm/devops-app \
       #       --namespace staging \
       #       --create-namespace \
       #       --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/devops-app \
-      #       --set image.tag=${{ github.event.workflow_run.head_sha }} \
-      #       --wait
+
             
       - name: Simular deploy en Staging
         run: |
           echo "========================================="
           echo "  DEPLOY A STAGING"
           echo "  Versión: ${{ github.sha }}"
-          echo "  Ambiente: ${{ vars.APP_ENV }}"
-          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  Ambiente: staging"
           echo "========================================="
           echo "Deploy completado exitosamente en staging"
 
@@ -60,7 +60,6 @@ jobs:
           echo "========================================="
           echo "  DEPLOY A PRODUCCIÓN"
           echo "  Versión: ${{ github.sha }}"
-          echo "  Ambiente: ${{ vars.APP_ENV }}"
-          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  Ambiente: production"
           echo "========================================="
           echo "Deploy completado exitosamente en producción"
