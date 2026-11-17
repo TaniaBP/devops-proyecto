@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "main" {
   name     = "rg-devops-academia-2"
-  location = "southcentralus"
+  location = "eastus2"
   tags = {
     environment = var.environment
     project     = "devops-academia-v2"
@@ -30,10 +30,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name            = "default"
     node_count      = 1
-    vm_size         = "Standard_DS2_v2"
+    vm_size         = "Standard_B2s" # Tamaño clásico serie B con cuota estándar habilitada
     os_disk_size_gb = 30
   }
-
   identity {
     type = "SystemAssigned"
   }
