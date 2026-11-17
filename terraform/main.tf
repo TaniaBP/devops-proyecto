@@ -1,3 +1,27 @@
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+variable "environment" {
+  type    = string
+  default = "staging"
+}
+
+variable "node_count" {
+  type    = number
+  default = 2
+}
+
 resource "azurerm_resource_group" "main" {
   name     = "rg-devops-academia"
   location = "eastus"
@@ -21,6 +45,7 @@ resource "azurerm_virtual_network" "main" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 }
+
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "aks-${var.environment}-devops"
   location            = azurerm_resource_group.main.location
@@ -30,11 +55,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name       = "default"
     node_count = var.node_count
-    vm_size    = "standard_d2ds_v4"
-  }
-
-  node_provisioning_profile {
-    mode = "Auto"
+    vm_size    = "Standard_DS2_v2"
   }
 
   identity {
@@ -45,4 +66,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
     environment = var.environment
     project     = "devops-academia"
   }
+}
+
+output "aks_cluster_name" {
+  value = azurerm_kubernetes_cluster.aks.name
+}
+
+output "resource_group_name" {
+  value = azurerm_resource_group.main.name
 }
