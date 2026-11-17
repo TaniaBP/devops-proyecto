@@ -1,32 +1,8 @@
-terraform {
-  required_version = ">= 1.0.0"
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "environment" {
-  type    = string
-  default = "staging"
-}
-
-variable "node_count" {
-  type    = number
-  default = 2
-}
-
 resource "azurerm_resource_group" "main" {
   name     = "rg-devops-academia"
-  location = "eastus"
+  location = var.location
   tags = {
-    environment = "staging"
+    environment = var.environment
     project     = "devops-academia"
   }
 }
@@ -66,12 +42,4 @@ resource "azurerm_kubernetes_cluster" "aks" {
     environment = var.environment
     project     = "devops-academia"
   }
-}
-
-output "aks_cluster_name" {
-  value = azurerm_kubernetes_cluster.aks.name
-}
-
-output "resource_group_name" {
-  value = azurerm_resource_group.main.name
 }
