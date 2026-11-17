@@ -27,12 +27,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = azurerm_resource_group.main.name
   dns_prefix          = "aks${var.environment}devops"
 
-default_node_pool {
-  name            = "default"
-  node_count      = 1
-  vm_size         = "Standard_D2s_v3" # Cambiado a la serie D v3 para evitar la restricción de la familia Bsv2
-  os_disk_size_gb = 30
-}
+  default_node_pool {
+    name            = "default"
+    node_count      = 1
+    vm_size         = "Standard_D2s_v3" # Cambiado a la serie D v3 para evitar la restricción de la familia Bsv2
+    os_disk_size_gb = 30
+  }
 
   identity {
     type = "SystemAssigned"
