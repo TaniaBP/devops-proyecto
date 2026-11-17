@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "main" {
   name     = "rg-${var.environment}-devop"
-  location = "eastus2"
+  location = "eastus"
   tags = {
     environment = var.environment
     project     = "devops-academia-v2"
