@@ -29,12 +29,12 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform
-        run: |
-          export ARM_CLIENT_ID="${{ steps.login.outputs.clientId }}"
-          export ARM_CLIENT_SECRET="${{ steps.login.outputs.clientSecret }}"
-          export ARM_SUBSCRIPTION_ID="${{ steps.login.outputs.subscriptionId }}"
-          export ARM_TENANT_ID="${{ steps.login.outputs.tenantId }}"
-          terraform init
+        run: terraform init
+        env:
+          ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
+          ARM_CLIENT_SECRET: ${{ steps.login.outputs.clientSecret }}
+          ARM_SUBSCRIPTION_ID: ${{ steps.login.outputs.subscriptionId }}
+          ARM_TENANT_ID: ${{ steps.login.outputs.tenantId }}
 
 
       - name: Terraform Plan
