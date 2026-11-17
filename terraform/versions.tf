@@ -18,7 +18,7 @@ terraform {
 
 provider "azurerm" {
   features {}
-  # Forzar el uso exclusivo de variables de entorno del Service Principal
+
   use_msi  = false
   use_oidc = false
 }
