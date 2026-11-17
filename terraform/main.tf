@@ -21,7 +21,6 @@ resource "azurerm_virtual_network" "main" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 }
-
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "aks-${var.environment}-devops"
   location            = azurerm_resource_group.main.location
@@ -29,13 +28,19 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "aks${var.environment}devops"
 
   default_node_pool {
-    name       = "default"
-    node_count = var.node_count
-    vm_size    = "Standard_DS2_v2"
+    name            = "default"
+    node_count      = var.node_count
+    vm_size         = "Standard_DS2_v2"
+    os_disk_size_gb = 30
   }
 
   identity {
     type = "SystemAssigned"
+  }
+
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "standard"
   }
 
   tags = {
