@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_storage_account" "main" {
-  name                     = "ststagingdevops2026n"
+  name                     = "ststagingdevops2026ne"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
@@ -30,7 +30,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name            = "default"
     node_count      = 1
-    vm_size         = "Standard_B2s_v2" # Tamaño permitido por la política de la región eastus
+    vm_size         = "Standard_DS2_v2"
     os_disk_size_gb = 30
   }
 
