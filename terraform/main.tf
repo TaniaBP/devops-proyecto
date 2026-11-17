@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "main" {
-  name     = "rg-devops-academia-2"
+  name     = "rg-${var.environment}-devop"
   location = "eastus2"
   tags = {
     environment = var.environment
@@ -30,7 +30,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name            = "default"
     node_count      = 1
-    vm_size         = "Standard_B2s_v2" # Tamaño exacto soportado por eastus2 según el reporte de Azure
+    vm_size         = "Standard_B2s_v2" 
     os_disk_size_gb = 30
   }
 
