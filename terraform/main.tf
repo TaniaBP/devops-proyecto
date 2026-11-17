@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "main" {
   name     = "rg-devops-academia-2"
-  location = var.location
+  location = "southcentralus"
   tags = {
     environment = var.environment
     project     = "devops-academia-v2"
