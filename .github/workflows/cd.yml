@@ -5,46 +5,53 @@ on:
     workflows: ["CI Pipeline", "Terraform IaC"]
     branches: [main]
     types: [completed]
-  workflow_dispatch:
 
 jobs:
   deploy-staging:
     name: Deploy → Staging
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Login en Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # - name: Conectar a AKS
-      #   run: |
-      #     az aks get-credentials \
-      #       --resource-group rg-devops-academia \
-      #       --name aks-staging-devops
-
-
-      # - name: Helm deploy en Staging
-      #   run: |
-      #     helm upgrade --install devops-app helm/devops-app \
-      #       --namespace staging \
-      #       --create-namespace \
-      #       --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/devops-app \
-
-            
       - name: Simular deploy en Staging
         run: |
           echo "========================================="
           echo "  DEPLOY A STAGING"
           echo "  Versión: ${{ github.sha }}"
-          echo "  Ambiente: staging"
+          echo "  Ambiente: ${{ vars.APP_ENV }}"
+          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
           echo "========================================="
           echo "Deploy completado exitosamente en staging"
+
+      - name: Verificar configuración del ambiente
+        run: |
+          echo "Ambiente: ${{ vars.APP_ENV }}"
+          echo "DB configurada: ${{ secrets.DB_URL != '' && 'SI' || 'NO' }}"
+          # NUNCA hacer: echo ${{ secrets.DB_URL }}
+          # Los secrets nunca se imprimen en logs
+
+      - name: Login en Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Conectar a AKS
+        run: |
+          az aks get-credentials \
+            --resource-group rg-staging-devops \
+            --name aks-staging-devops
+
+      - name: Helm deploy en Staging
+        run: |
+          helm upgrade --install devops-app helm/devops-app \
+            --namespace staging \
+            --create-namespace \
+            --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/devops-app \
+            --set image.tag=${{ github.sha }} \
+            --wait --timeout 5m
 
   deploy-production:
     name: Deploy → Production
@@ -60,6 +67,8 @@ jobs:
           echo "========================================="
           echo "  DEPLOY A PRODUCCIÓN"
           echo "  Versión: ${{ github.sha }}"
-          echo "  Ambiente: production"
+          echo "  Ambiente: ${{ vars.APP_ENV }}"
+          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
           echo "========================================="
           echo "Deploy completado exitosamente en producción"
+ 
