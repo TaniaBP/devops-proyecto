@@ -20,38 +20,30 @@ jobs:
         with:
           terraform_version: "1.6.0"
 
-      - name: Login en Azure
-        id: login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          enable-AzPSSession: true
-
       - name: Terraform Init
         working-directory: terraform
         run: terraform init
         env:
-          ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
-          ARM_CLIENT_SECRET: ${{ steps.login.outputs.clientSecret }}
-          ARM_SUBSCRIPTION_ID: ${{ steps.login.outputs.subscriptionId }}
-          ARM_TENANT_ID: ${{ steps.login.outputs.tenantId }}
-
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Terraform Plan
         working-directory: terraform
         run: terraform plan -no-color -out=tfplan
         env:
-          ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
-          ARM_CLIENT_SECRET: ${{ steps.login.outputs.clientSecret }}
-          ARM_SUBSCRIPTION_ID: ${{ steps.login.outputs.subscriptionId }}
-          ARM_TENANT_ID: ${{ steps.login.outputs.tenantId }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         working-directory: terraform
         run: terraform apply -auto-approve tfplan
         env:
-          ARM_CLIENT_ID: ${{ steps.login.outputs.clientId }}
-          ARM_CLIENT_SECRET: ${{ steps.login.outputs.clientSecret }}
-          ARM_SUBSCRIPTION_ID: ${{ steps.login.outputs.subscriptionId }}
-          ARM_TENANT_ID: ${{ steps.login.outputs.tenantId }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
