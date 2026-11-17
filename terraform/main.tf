@@ -47,3 +47,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     project     = "devops-academia"
   }
 }
+import {
+  to = azurerm_resource_group.main
+  id = "/subscriptions/TU_SUBSCRIPTION_ID/resourceGroups/rg-devops-academia"
+}
