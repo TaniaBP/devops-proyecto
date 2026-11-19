@@ -3,8 +3,8 @@
   "Trivy": {
     "Version": "0.76.1"
   },
-  "ReportID": "01a1efbd-df30-7b64-98c0-78484a647a0d",
-  "CreatedAt": "2026-11-18T11:39:20.4967466-06:00",
+  "ReportID": "01a1efd6-70a6-7af3-aafa-9f9062bfe84e",
+  "CreatedAt": "2026-11-18T12:06:10.5987177-06:00",
   "ArtifactID": "sha256:2199c2bcbf8ed9b203055b20681f31b594ed9c0090d9602a5b7edc6a372e0f3c",
   "ArtifactName": "devops-app:v1.0",
   "ArtifactType": "container_image",
