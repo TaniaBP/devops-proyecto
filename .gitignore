@@ -5,3 +5,6 @@ terraform.tfstate.backup
 *.tfvars.local
 .terraform.lock.hcl
 "@ | Out-File -Append -Encoding utf8 .gitignore
+.env
+.env.*
+!.env.example
