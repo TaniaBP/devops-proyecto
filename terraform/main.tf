@@ -1,26 +1,27 @@
 resource "azurerm_resource_group" "main" {
   name     = "rg-${var.environment}-devop"
-  location = "eastus"
+  location = var.location
   tags = {
     environment = var.environment
-    project     = "devops-academia-v2"
+    project     = "devops-academia"
   }
 }
 
+resource "azurerm_virtual_network" "main" {
+  name                = "vnet-${var.environment}-devops"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  address_space       = ["10.0.0.0/16"]
+}
+
 resource "azurerm_storage_account" "main" {
-  name                     = "ststagingdevops2026new"
+  name                     = "st${var.environment}devops${substr(md5(var.environment), 0, 5)}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
-resource "azurerm_virtual_network" "main" {
-  name                = "vnet-staging-devops"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-}
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "aks-${var.environment}-devops"
   location            = azurerm_resource_group.main.location
@@ -28,18 +29,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "aks${var.environment}devops"
 
   default_node_pool {
-    name            = "default"
-    node_count      = 1
-    vm_size         = "standard_d2ds_v4"
-    os_disk_size_gb = 30
+    name       = "default"
+    node_count = var.node_count
+    vm_size    = var.vm_size
   }
 
   identity {
     type = "SystemAssigned"
-  }
-
-  node_provisioning_profile {
-    mode = "Manual"
   }
 
   tags = {
@@ -47,3 +43,4 @@ resource "azurerm_kubernetes_cluster" "aks" {
     project     = "devops-academia"
   }
 }
+ 
