@@ -1,3 +1,4 @@
 environment = "staging"
-location    = "eastus"
+location    = "centralus"
 node_count  = 1
+ 
