@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "main" {
-  name     = "rg-${var.environment}-devop"
+  name     = "rg-${var.environment}-devops"
   location = var.location
   tags = {
     environment = var.environment
