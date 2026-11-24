@@ -1,0 +1,5 @@
+<<<<<<< Updated upstream
+=======
+Pruebas 1
+pprueba 2
+>>>>>>> Stashed changes
