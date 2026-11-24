@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = azurerm_resource_group.main.name
   dns_prefix          = "aks${var.environment}devops"
 
-node_provisioning_profile {
+  node_provisioning_profile {
     mode = "Manual"
   }
   default_node_pool {
